@@ -1,10 +1,10 @@
-#include "chunk/ntrn.h"
+#include "node/transform.h"
 
 namespace vox {
 
-ntrn* ntrn::read(const void*& data, size_t& size) {
+transform* transform::read(const void*& data, size_t& size) {
   auto id = read_t<uint32_t>(data, size);
-  auto* ntrn = new vox::ntrn();
+  auto* ntrn = new vox::transform();
   ntrn->content = read_t<int32_t>(data, size);
   ntrn->children = read_t<int32_t>(data, size);
   ntrn->node::id = read_t<int32_t>(data, size);

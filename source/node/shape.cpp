@@ -1,10 +1,10 @@
-#include "chunk/nshp.h"
+#include "node/shape.h"
 
 namespace vox {
 
-nshp* nshp::read(const void*& data, size_t& size) {
+shape* shape::read(const void*& data, size_t& size) {
   auto id = read_t<uint32_t>(data, size);
-  auto* nshp = new ::vox::nshp();
+  auto* nshp = new ::vox::shape();
   nshp->content = read_t<int32_t>(data, size);
   nshp->children = read_t<int32_t>(data, size);
   nshp->node::id = read_t<int32_t>(data, size);

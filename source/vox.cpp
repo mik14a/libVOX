@@ -3,13 +3,13 @@
 #include "chunk/main.h"
 #include "chunk/matl.h"
 #include "chunk/matt.h"
-#include "chunk/ngrp.h"
-#include "chunk/nshp.h"
-#include "chunk/ntrn.h"
 #include "chunk/pack.h"
 #include "chunk/rgba.h"
 #include "chunk/size.h"
 #include "chunk/xyzi.h"
+#include "node/group.h"
+#include "node/shape.h"
+#include "node/transform.h"
 
 #include <iostream>
 #include <memory>
@@ -39,17 +39,18 @@ vox vox::read(const void*& data, size_t& size) {
         auto layr = layr::read(data, size);
         vox.layer.emplace(layr.id, std::move(layr));
       } break;
-      case ntrn::tag: {
-        auto ntrn = std::shared_ptr<::vox::node>(ntrn::read(data, size));
-        vox.node.emplace(ntrn->id, ntrn);
+      case transform::tag: {
+        auto transform =
+            std::shared_ptr<::vox::node>(transform::read(data, size));
+        vox.node.emplace(transform->id, transform);
       } break;
-      case ngrp::tag: {
-        auto ngrp = std::shared_ptr<::vox::ngrp>(ngrp::read(data, size));
-        vox.node.emplace(ngrp->id, ngrp);
+      case group::tag: {
+        auto group = std::shared_ptr<::vox::group>(group::read(data, size));
+        vox.node.emplace(group->id, group);
       } break;
-      case nshp::tag: {
-        auto nshp = std::shared_ptr<::vox::nshp>(nshp::read(data, size));
-        vox.node.emplace(nshp->id, nshp);
+      case shape::tag: {
+        auto shape = std::shared_ptr<::vox::shape>(shape::read(data, size));
+        vox.node.emplace(shape->id, shape);
       } break;
       default: {
         id = read_t<uint32_t>(data, size);

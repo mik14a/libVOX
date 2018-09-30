@@ -1,6 +1,5 @@
 #include "chunk/layr.h"
-
-#include "chunk/node.h"
+#include "node/node.h"
 
 namespace vox {
 

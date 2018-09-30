@@ -2,11 +2,11 @@
 #pragma once
 
 #include "chunk/layr.h"
-#include "chunk/node.h"
 #include "chunk/rgba.h"
 #include "chunk/size.h"
 #include "chunk/xyzi.h"
 #include "libvox.h"
+#include "node/node.h"
 
 #include <iostream>
 #include <memory>

@@ -1,10 +1,10 @@
-#include "chunk/ngrp.h"
+#include "node/group.h"
 
 namespace vox {
 
-ngrp* ngrp::read(const void*& data, size_t& size) {
+group* group::read(const void*& data, size_t& size) {
   auto id = read_t<uint32_t>(data, size);
-  auto* ngrp = new ::vox::ngrp();
+  auto* ngrp = new ::vox::group();
   ngrp->content = read_t<int32_t>(data, size);
   ngrp->children = read_t<int32_t>(data, size);
   ngrp->node::id = read_t<int32_t>(data, size);
