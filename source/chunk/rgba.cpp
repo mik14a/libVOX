@@ -5,7 +5,7 @@ namespace vox {
 vox::rgba rgba::read(const void*& data, size_t& size) {
   rgba rgba;
   auto id = read_t<uint32_t>(data, size);
-  if (rgba::id != id) return rgba;
+  if (rgba::tag != id) return rgba;
   rgba.content = read_t<int32_t>(data, size);
   rgba.children = read_t<int32_t>(data, size);
   for (auto n = 0; n < 256; ++n) {

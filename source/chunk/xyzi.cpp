@@ -5,7 +5,7 @@ namespace vox {
 xyzi xyzi::read(const void*& data, size_t& size) {
   xyzi xyzi;
   auto id = read_t<uint32_t>(data, size);
-  if (xyzi::id != id) return xyzi;
+  if (xyzi::tag != id) return xyzi;
   xyzi.content = read_t<int32_t>(data, size);
   xyzi.children = read_t<int32_t>(data, size);
   xyzi.num = read_t<int32_t>(data, size);

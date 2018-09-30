@@ -5,7 +5,7 @@ namespace vox {
 size size::read(const void*& data, size_t& size) {
   ::vox::size vsize;
   auto id = read_t<uint32_t>(data, size);
-  if (::vox::size::id != id) return vsize;
+  if (::vox::size::tag != id) return vsize;
   vsize.content = read_t<int32_t>(data, size);
   vsize.children = read_t<int32_t>(data, size);
   vsize.x = read_t<int32_t>(data, size);

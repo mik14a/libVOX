@@ -1,5 +1,11 @@
 #include "vox.h"
+#include "chunk/layr.h"
 #include "chunk/main.h"
+#include "chunk/matl.h"
+#include "chunk/matt.h"
+#include "chunk/ngrp.h"
+#include "chunk/nshp.h"
+#include "chunk/ntrn.h"
 #include "chunk/pack.h"
 #include "chunk/rgba.h"
 #include "chunk/size.h"
@@ -13,22 +19,33 @@ vox vox::read(const void*& data, size_t& size) {
   vox vox;
   vox.version = 150;
   auto main = main::read(data, size);
-  auto id = peek_t<uint32_t>(data);
-  if (pack::id == id) {
-    auto pack = pack::read(data, size);
-    for (int i = 0; i < pack.models; ++i) {
-      vox.size.push_back(size::read(data, size));
-      vox.voxel.push_back(xyzi::read(data, size));
-    }
-  } else {
-    vox.size.push_back(std::move(size::read(data, size)));
-    vox.voxel.push_back(std::move(xyzi::read(data, size)));
-  }
   while (0 < size) {
-    id = peek_t<uint32_t>(data);
+    auto id = peek_t<uint32_t>(data);
     switch (id) {
-      case rgba::id: {
+      case pack::tag: {
+        auto pack = pack::read(data, size);
+      } break;
+      case size::tag: {
+        vox.size.push_back(size::read(data, size));
+      } break;
+      case xyzi::tag: {
+        vox.voxel.push_back(xyzi::read(data, size));
+      } break;
+      case rgba::tag: {
         vox.palette = rgba::read(data, size);
+      } break;
+      case layr::tag: {
+        auto layr = layr::read(data, size);
+        vox.layer.emplace(layr.id, std::move(layr));
+      } break;
+      case ntrn::tag: {
+        auto ntrn = ntrn::read(data, size);
+      } break;
+      case ngrp::tag: {
+        auto ngrp = ngrp::read(data, size);
+      } break;
+      case nshp::tag: {
+        auto nshp = nshp::read(data, size);
       } break;
       default: {
         id = read_t<uint32_t>(data, size);

@@ -7,7 +7,11 @@ enable_testing()
 add_library(libVOX
 	source/libvox.cpp
 	source/vox.cpp
+	source/chunk/layr.cpp
 	source/chunk/main.cpp
+	source/chunk/ngrp.cpp
+	source/chunk/nshp.cpp
+	source/chunk/ntrn.cpp
 	source/chunk/pack.cpp
 	source/chunk/rgba.cpp
 	source/chunk/size.cpp
