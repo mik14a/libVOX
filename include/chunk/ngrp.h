@@ -15,7 +15,7 @@ struct ngrp : node {
 
   std::vector<int32_t> child;
 
-  static ngrp read(const void*& data, size_t& size);
+  static ngrp* read(const void*& data, size_t& size);
 };
 
 }  // namespace vox

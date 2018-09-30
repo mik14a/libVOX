@@ -12,6 +12,7 @@
 #include "chunk/xyzi.h"
 
 #include <iostream>
+#include <memory>
 
 namespace vox {
 
@@ -39,13 +40,16 @@ vox vox::read(const void*& data, size_t& size) {
         vox.layer.emplace(layr.id, std::move(layr));
       } break;
       case ntrn::tag: {
-        auto ntrn = ntrn::read(data, size);
+        auto ntrn = std::shared_ptr<::vox::node>(ntrn::read(data, size));
+        vox.node.emplace(ntrn->id, ntrn);
       } break;
       case ngrp::tag: {
-        auto ngrp = ngrp::read(data, size);
+        auto ngrp = std::shared_ptr<::vox::ngrp>(ngrp::read(data, size));
+        vox.node.emplace(ngrp->id, ngrp);
       } break;
       case nshp::tag: {
-        auto nshp = nshp::read(data, size);
+        auto nshp = std::shared_ptr<::vox::nshp>(nshp::read(data, size));
+        vox.node.emplace(nshp->id, nshp);
       } break;
       default: {
         id = read_t<uint32_t>(data, size);

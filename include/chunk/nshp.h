@@ -13,7 +13,7 @@ struct nshp : node {
   std::unordered_map<std::string, std::string> attribute;
   std::unordered_map<int32_t, std::unordered_map<std::string, std::string>>  model;
 
-  static nshp read(const void*& data, size_t& size);
+  static nshp* read(const void*& data, size_t& size);
 };
 
 }  // namespace vox

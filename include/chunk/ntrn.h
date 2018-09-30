@@ -17,7 +17,7 @@ struct ntrn : node {
   int32_t layer; 
   std::vector<std::unordered_map<std::string, std::string>> frame;
 
-  static ntrn read(const void*& data, size_t& size);
+  static ntrn* read(const void*& data, size_t& size);
 };
 
 }  // namespace vox
