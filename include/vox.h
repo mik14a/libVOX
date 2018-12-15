@@ -1,12 +1,15 @@
 
 #pragma once
 
+#include "libvox.h"
+
 #include "chunk/layr.h"
 #include "chunk/rgba.h"
 #include "chunk/size.h"
 #include "chunk/xyzi.h"
-#include "libvox.h"
-#include "node/node.h"
+#include "node/group.h"
+#include "node/shape.h"
+#include "node/transform.h"
 
 #include <iostream>
 #include <memory>
@@ -20,13 +23,15 @@ namespace vox {
  */
 struct vox {
   static constexpr uint32_t tag = generate_id('V', 'O', 'X', ' ');
+  using node_t = std::unordered_map<int32_t, std::shared_ptr<node>>;
+  using layer_t = std::unordered_map<int32_t, layr>;
 
   int32_t version;
   std::vector<size> size;
   std::vector<xyzi> voxel;
   rgba palette;
-  std::unordered_map<int32_t, std::shared_ptr<::vox::node>> node;
-  std::unordered_map<int32_t, layr> layer;
+  node_t node;
+  layer_t layer;
 
   static const uint32_t default_palette[256];
   static vox read(const void*& data, size_t& size);
