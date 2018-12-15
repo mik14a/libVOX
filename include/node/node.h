@@ -9,6 +9,8 @@
 
 namespace vox {
 
+using dictionary_t = std::unordered_map<std::string, std::string>;
+
 inline std::string read_string(const void*& data, size_t& size) {
   auto bytes = read_t<int32_t>(data, size);
   std::string string((const char*)data, bytes);
@@ -17,9 +19,8 @@ inline std::string read_string(const void*& data, size_t& size) {
   return string;
 }
 
-inline std::unordered_map<std::string, std::string> read_dictionary(
-    const void*& data, size_t& size) {
-  std::unordered_map<std::string, std::string> dictionary;
+inline dictionary_t read_dictionary(const void*& data, size_t& size) {
+  dictionary_t dictionary;
   auto num = read_t<int32_t>(data, size);
   for (auto i = 0; i < num; ++i) {
     auto key = read_string(data, size);
