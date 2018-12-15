@@ -1,3 +1,5 @@
+.vs
+.vscode
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
