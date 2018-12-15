@@ -7,13 +7,14 @@ shape* shape::read(const void*& data, size_t& size) {
   auto* nshp = new ::vox::shape();
   nshp->content = read_t<int32_t>(data, size);
   nshp->children = read_t<int32_t>(data, size);
-  nshp->node::id = read_t<int32_t>(data, size);
-  nshp->attribute = read_dictionary(data, size);
+  nshp->id = read_t<int32_t>(data, size);
+  auto attribute = read_dictionary(data, size);
   auto models = read_t<int32_t>(data, size);
   for (auto i = 0; i < models; ++i) {
-    auto id = read_t<int32_t>(data, size);
-    auto attributes = read_dictionary(data, size);
-    nshp->model.emplace(id, std::move(attributes));
+    auto model = model_t::value_type();
+    model.id = read_t<int32_t>(data, size);
+    model.attributes = read_dictionary(data, size);
+    nshp->model.push_back(std::move(model));
   }
   return nshp;
 }

@@ -2,6 +2,8 @@
 
 #include "node.h"
 
+#include <vector>
+
 namespace vox {
 
 /**
@@ -9,9 +11,13 @@ namespace vox {
  */
 struct shape : node {
   static constexpr uint32_t tag = generate_id('n', 'S', 'H', 'P');
+  struct model {
+    int32_t id;
+    dictionary_t attributes;
+  };
+  using model_t = std::vector<shape::model>;
 
-  std::unordered_map<std::string, std::string> attribute;
-  std::unordered_map<int32_t, std::unordered_map<std::string, std::string>>  model;
+  model_t model;
 
   static shape* read(const void*& data, size_t& size);
 };

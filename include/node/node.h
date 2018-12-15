@@ -35,7 +35,6 @@ inline dictionary_t read_dictionary(const void*& data, size_t& size) {
  */
 struct node : chunk {
   int32_t id;
-  std::unordered_map<std::string, std::string> attribute;
 };
 
 }  // namespace vox

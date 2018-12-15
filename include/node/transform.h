@@ -2,19 +2,21 @@
 
 #include "node.h"
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 namespace vox {
 
 /**
- * Transform Node Chunk 
+ * Transform Node Chunk
  */
 struct transform : node {
   static constexpr uint32_t tag = generate_id('n', 'T', 'R', 'N');
 
+  std::string name;
+  bool hidden;
   int32_t child;
-  int32_t layer; 
+  int32_t layer;
   std::vector<std::unordered_map<std::string, std::string>> frame;
 
   static transform* read(const void*& data, size_t& size);
