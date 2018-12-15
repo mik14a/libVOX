@@ -19,6 +19,7 @@ struct transform : node {
   int32_t layer;
   std::vector<std::unordered_map<std::string, std::string>> frame;
 
+  transform() { node::tag = tag; }
   static transform* read(const void*& data, size_t& size);
 };
 

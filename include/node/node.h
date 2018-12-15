@@ -35,6 +35,7 @@ inline dictionary_t read_dictionary(const void*& data, size_t& size) {
  */
 struct node : chunk {
   int32_t id;
+  uint32_t tag;
 };
 
 }  // namespace vox

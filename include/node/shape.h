@@ -19,6 +19,7 @@ struct shape : node {
 
   model_t model;
 
+  shape() { node::tag = tag; }
   static shape* read(const void*& data, size_t& size);
 };
 

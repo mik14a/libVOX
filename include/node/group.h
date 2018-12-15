@@ -15,6 +15,7 @@ struct group : node {
 
   std::vector<int32_t> child;
 
+  group() { node::tag = tag; }
   static group* read(const void*& data, size_t& size);
 };
 
