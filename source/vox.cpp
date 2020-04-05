@@ -23,47 +23,55 @@ vox vox::read(const void*& data, size_t& size) {
   while (0 < size) {
     auto id = peek_t<uint32_t>(data);
     switch (id) {
-      case pack::tag: {
-        auto pack = pack::read(data, size);
-      } break;
-      case size::tag: {
-        vox.size.push_back(size::read(data, size));
-      } break;
-      case xyzi::tag: {
-        vox.voxel.push_back(xyzi::read(data, size));
-      } break;
-      case rgba::tag: {
-        vox.palette = rgba::read(data, size);
-      } break;
-      case layr::tag: {
-        auto layr = layr::read(data, size);
-        vox.layer.emplace(layr.id, std::move(layr));
-      } break;
-      case transform::tag: {
-        auto transform =
-            std::shared_ptr<::vox::node>(transform::read(data, size));
-        vox.node.emplace(transform->id, transform);
-      } break;
-      case group::tag: {
-        auto group = std::shared_ptr<::vox::group>(group::read(data, size));
-        vox.node.emplace(group->id, group);
-      } break;
-      case shape::tag: {
-        auto shape = std::shared_ptr<::vox::shape>(shape::read(data, size));
-        vox.node.emplace(shape->id, shape);
-      } break;
-      default: {
-        id = read_t<uint32_t>(data, size);
-        auto content = read_t<int32_t>(data, size);
-        auto children = read_t<int32_t>(data, size);
-        data = (char*)data + content;
-        size -= content;
-      } break;
+    case pack::tag: {
+      auto pack = pack::read(data, size);
+    } break;
+    case size::tag: {
+      vox.size.push_back(size::read(data, size));
+    } break;
+    case xyzi::tag: {
+      vox.voxel.push_back(xyzi::read(data, size));
+    } break;
+    case rgba::tag: {
+      vox.palette = rgba::read(data, size);
+    } break;
+    case layr::tag: {
+      auto layr = layr::read(data, size);
+      vox.layer.emplace(layr.id, std::move(layr));
+    } break;
+    case transform::tag: {
+      auto transform =
+          std::shared_ptr<::vox::node>(transform::read(data, size));
+      vox.node.emplace(transform->id, transform);
+    } break;
+    case group::tag: {
+      auto group = std::shared_ptr<::vox::group>(group::read(data, size));
+      vox.node.emplace(group->id, group);
+    } break;
+    case shape::tag: {
+      auto shape = std::shared_ptr<::vox::shape>(shape::read(data, size));
+      vox.node.emplace(shape->id, shape);
+    } break;
+    default: {
+      id = read_t<uint32_t>(data, size);
+      auto content = read_t<int32_t>(data, size);
+#if __has_cpp_attribute(maybe_unused)
+      [[maybe_unused]]
+#endif
+      auto children = read_t<int32_t>(data, size);
+#if __has_cpp_attribute(maybe_unused)
+#else
+	  (void)children;
+#endif
+      data = (char*)data + content;
+      size -= content;
+    } break;
     }
   }
   return vox;
 }
 
+// clang-format off
 const uint32_t vox::default_palette[256] = {
   0xffffffff, 0xffffffcc, 0xffffff99, 0xffffff66, 0xffffff33, 0xffffff00, 0xffffccff, 0xffffcccc, 0xffffcc99, 0xffffcc66, 0xffffcc33, 0xffffcc00, 0xffff99ff, 0xffff99cc, 0xffff9999, 0xffff9966,
   0xffff9933, 0xffff9900, 0xffff66ff, 0xffff66cc, 0xffff6699, 0xffff6666, 0xffff6633, 0xffff6600, 0xffff33ff, 0xffff33cc, 0xffff3399, 0xffff3366, 0xffff3333, 0xffff3300, 0xffff00ff, 0xffff00cc,
@@ -82,5 +90,6 @@ const uint32_t vox::default_palette[256] = {
   0xff110000, 0xff00ee00, 0xff00dd00, 0xff00bb00, 0xff00aa00, 0xff008800, 0xff007700, 0xff005500, 0xff004400, 0xff002200, 0xff001100, 0xff0000ee, 0xff0000dd, 0xff0000bb, 0xff0000aa, 0xff000088,
   0xff000077, 0xff000055, 0xff000044, 0xff000022, 0xff000011, 0xffeeeeee, 0xffdddddd, 0xffbbbbbb, 0xffaaaaaa, 0xff888888, 0xff777777, 0xff555555, 0xff444444, 0xff222222, 0xff111111, 0xff000000
 };
+// clang-format on
 
 }  // namespace vox

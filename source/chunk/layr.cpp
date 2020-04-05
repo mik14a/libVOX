@@ -4,9 +4,10 @@
 namespace vox {
 
 layr layr::read(const void*& data, size_t& size) {
-  layr layr;
+  auto layr = vox::layr();
   auto id = read_t<uint32_t>(data, size);
-  if (layr::tag != id) return layr;
+  if (vox::layr::tag != id) return layr;
+
   layr.content = read_t<int32_t>(data, size);
   layr.children = read_t<int32_t>(data, size);
   layr.id = read_t<int32_t>(data, size);

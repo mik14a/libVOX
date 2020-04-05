@@ -5,8 +5,10 @@
 namespace vox {
 
 transform* transform::read(const void*& data, size_t& size) {
-  auto id = read_t<uint32_t>(data, size);
   auto* ntrn = new vox::transform();
+  auto id = read_t<uint32_t>(data, size);
+  if (vox::transform::tag != id) return ntrn;
+
   ntrn->content = read_t<int32_t>(data, size);
   ntrn->children = read_t<int32_t>(data, size);
   ntrn->id = read_t<int32_t>(data, size);
