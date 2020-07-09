@@ -20,20 +20,27 @@ namespace vox {
 
 /**
  * Vox file format
+ * @see https://github.com/ephtracy/voxel-model/blob/master/MagicaVoxel-file-format-vox.txt
+ * @see https://github.com/ephtracy/voxel-model/blob/master/MagicaVoxel-file-format-vox-extension.txt
  */
 struct vox {
+  //! VOX format file tag.
   static constexpr uint32_t tag = generate_id('V', 'O', 'X', ' ');
+
   using node_t = std::unordered_map<int32_t, std::shared_ptr<node>>;
   using layer_t = std::unordered_map<int32_t, layr>;
 
-  int32_t version;
-  std::vector<size> size;
-  std::vector<xyzi> voxel;
-  rgba palette;
-  node_t node;
-  layer_t layer;
+  int32_t version;          //!< Vox file version.
+  std::vector<size> size;   //!< Model size.
+  std::vector<xyzi> voxel;  //!< Model voxels.
+  rgba palette;             //!< Palette.
 
+  node_t node;    //!< extension nodes.
+  layer_t layer;  //!< extension layers.
+
+  //! Default palette.
   static const uint32_t default_palette[256];
+  //! Create vox format data from memory.
   static vox read(const void*& data, size_t& size);
 };
 
