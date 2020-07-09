@@ -8,16 +8,26 @@
 namespace vox {
 
 /**
+ * Scene translation vector
+ */
+struct translation {
+  int32_t x = 0, y = 0, z = 0;
+};
+
+/**
+ * Scene rotation matrix
+ */
+struct rotation {
+  int8_t m[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+};
+
+/**
  * Transform Node Chunk
  */
 struct transform : node {
   struct frame {
-    struct {
-      int8_t m[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-    } rotation;
-    struct {
-      int32_t x = 0, y = 0, z = 0;
-    } translation;
+    rotation rotation;
+    translation translation;
   };
 
   static constexpr uint32_t tag = generate_id('n', 'T', 'R', 'N');
