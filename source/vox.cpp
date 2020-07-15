@@ -35,6 +35,10 @@ vox vox::read(const void*& data, size_t& size) {
     case rgba::tag: {
       vox.palette = rgba::read(data, size);
     } break;
+    case matl::tag: {
+      auto matl = matl::read(data, size);
+      vox.material.emplace(matl.id, std::move(matl));
+    } break;
     case layr::tag: {
       auto layr = layr::read(data, size);
       vox.layer.emplace(layr.id, std::move(layr));
@@ -61,7 +65,7 @@ vox vox::read(const void*& data, size_t& size) {
       auto children = read_t<int32_t>(data, size);
 #if __has_cpp_attribute(maybe_unused)
 #else
-	  (void)children;
+      (void)children;
 #endif
       data = (char*)data + content;
       size -= content;

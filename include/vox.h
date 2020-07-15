@@ -4,6 +4,7 @@
 #include "libvox.h"
 
 #include "chunk/layr.h"
+#include "chunk/matl.h"
 #include "chunk/rgba.h"
 #include "chunk/size.h"
 #include "chunk/xyzi.h"
@@ -28,6 +29,7 @@ struct vox {
   static constexpr uint32_t tag = generate_id('V', 'O', 'X', ' ');
 
   using node_t = std::unordered_map<int32_t, std::shared_ptr<node>>;
+  using material_t = std::unordered_map<int32_t, matl>;
   using layer_t = std::unordered_map<int32_t, layr>;
 
   int32_t version;          //!< Vox file version.
@@ -35,8 +37,9 @@ struct vox {
   std::vector<xyzi> voxel;  //!< Model voxels.
   rgba palette;             //!< Palette.
 
-  node_t node;    //!< extension nodes.
-  layer_t layer;  //!< extension layers.
+  node_t node;          //!< extension nodes.
+  material_t material;  //!< extension materials.
+  layer_t layer;        //!< extension layers.
 
   //! Default palette.
   static const uint32_t default_palette[256];
